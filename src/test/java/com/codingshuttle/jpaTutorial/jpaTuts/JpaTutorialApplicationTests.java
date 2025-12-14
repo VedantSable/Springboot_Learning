@@ -5,11 +5,9 @@ import com.codingshuttle.jpaTutorial.jpaTuts.repositories.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 class JpaTutorialApplicationTests {
@@ -22,12 +20,13 @@ class JpaTutorialApplicationTests {
 	}
 
 	@Test
-	void testRepository() {
+	void testRepository(){
+
 		ProductEntity productEntity = ProductEntity.builder()
 				.sku("nestle234")
 				.title("Nestle Chocolate")
-				.price(BigDecimal.valueOf(23.45))
-				.quantity(4)
+				.price(BigDecimal.valueOf(123.45))
+				.quantity(12)
 				.build();
 
 		ProductEntity savedProductEntity = productRepository.save(productEntity);
@@ -35,19 +34,10 @@ class JpaTutorialApplicationTests {
 	}
 
 	@Test
-	void getRepository() {
-//		List<ProductEntity> entities = productRepository.findByCreatedAtAfter(
-//				LocalDateTime.of(2025, 1, 1, 0, 0, 0 ));
-//		List<ProductEntity> entities = productRepository.findByQuantityGreaterThanOrPriceLessThan(4, BigDecimal.valueOf(23.45));
-		List<ProductEntity> entities = productRepository.findByTitleContainingIgnoreCase("CHOco", null);
+	void getRepository(){
+//		List<ProductEntity> entities = productRepository.findByCreatedAtAfter(LocalDateTime.of(2024,1,1,0,0,0));
+		List<ProductEntity> entities = productRepository.findByQuantityGreaterThanAndPriceLessThan(4,BigDecimal.valueOf(23.45));
 		System.out.println(entities);
-	}
-
-	@Test
-	void getSingleFromRepository() {
-		Optional<ProductEntity> productEntity = productRepository
-				.findByTitleAndPrice("Peps", BigDecimal.valueOf(14.4));
-		productEntity.ifPresent(System.out::println);
 	}
 
 }
